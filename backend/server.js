@@ -1,7 +1,14 @@
+var CanvasReader = require('./CanvasReader');
+
+//
 var app    = require('express')();
 var server = require('http').Server(app);
-var io     = require('socket.io')(server);
 var colors = require('colors');
+
+//
+var reader = CanvasReader(server);
+var io     = require('socket.io')(server);
+
 
 console.log('server on'.rainbow);
 
