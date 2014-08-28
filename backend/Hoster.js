@@ -17,11 +17,6 @@ function Hoster (server, opts) {
 Hoster.prototype.attach = function (server, opts) {
   var self = this;
 
-  if (!(_.isFunction(server.removeAllListeners && _.isFunction(server.listeners) && _.isFunction(server.on)))) {
-    console.error('HttpServer is missing important event emitter functions');
-    return;
-  }
-  
   opts = opts || {};
 
   opts = _.defaults(opts, {
@@ -57,25 +52,22 @@ Hoster.prototype.urlMatches = function (url) {
 };
 
 /**
- * [serveCanvasReaderJs description]
+ * Serve CanvasReader.js to the Clientside
  * @param  {[type]} req [description]
  * @param  {[type]} res [description]
  * @return {[type]}     [description]
  */
 function serveCanvasReaderJs (req, res) {
   fs.readFile(__dirname + '/file.js', 'utf8', function (err, data) {
-    if (err) {
-      console.log(err);
-      res.end('err');
-    }
+    if (err)
+      res.end('console.log("is it french fry time yet?");');
     else
       res.end(data);
   });
-  console.log(':(');
 }
 
 /**
- * [exports description]
- * @type {[type]}
+ * Export Hoster Class
+ * @type {!Hoster}
  */
 module.exports = Hoster;

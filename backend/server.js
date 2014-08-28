@@ -1,17 +1,20 @@
 var CanvasReader = require('./CanvasReader');
 
-//
+// X_o
 var app    = require('express')();
 var server = require('http').Server(app).listen(process.env.PORT || 5000);
 var colors = require('colors');
 
-//
+// x_^
 var reader = CanvasReader(server);
 var io     = require('socket.io')(server);
 
+// O_o
 app.get('/', function (req, resp) {
   resp.end(':(');
 });
+
+console.log('hustling backwards'.rainbow)
 
 // io.on('connection', function (socket) {
   
