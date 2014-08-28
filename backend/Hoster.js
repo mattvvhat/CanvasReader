@@ -5,18 +5,25 @@ var _  = require('underscore');
  * [Hoster description]
  * @param {[type]} server [description]
  */
-function Hoster (server) {
-  this.attach(server);
+function Hoster (server, opts) {
+  this.attach(server, opts);
 }
 
 /**
- * [attach description]
- * @param  {[type]} server [description]
- * @return {[type]}        [description]
+ * Attach a Route to a Server
+ * @param  {!HttpServer} server    Server object with "request" listeners
+ * @return undefined     undefined 
  */
 Hoster.prototype.attach = function (server, opts) {
   var self = this;
+
+  if (!(_.isFunction(server.removeAllListeners && _.isFunction(server.listeners) && _.isFunction(server.on)))) {
+    console.error('HttpServer is missing important event emitter functions');
+    return;
+  }
+  
   opts = opts || {};
+
   opts = _.defaults(opts, {
     path : '/CanvasReader/CanvasReader.js'
   });
@@ -27,6 +34,7 @@ Hoster.prototype.attach = function (server, opts) {
   // Remove listeners, but we'll re-add them later
   server.removeAllListeners('request');
 
+  // Add a listener that catches the browser looking for our CanvasReader path
   server.on('request', function (req, res) {
     if (req.url.indexOf(opts.path) === 0) {
       serveCanvasReaderJs.call(server, req, res);
@@ -37,8 +45,6 @@ Hoster.prototype.attach = function (server, opts) {
       });
     }
   });
-
-
 };
 
 /**
@@ -47,7 +53,7 @@ Hoster.prototype.attach = function (server, opts) {
  * @return {[type]}     [description]
  */
 Hoster.prototype.urlMatches = function (url) {
-
+  return url.indexOf(this.path) === 0;
 };
 
 /**

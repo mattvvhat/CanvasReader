@@ -2,11 +2,39 @@
 
 NodeJS package to receive image data across a socket
 
-# Install
+## Install
 
 1. `npm install`
 2. `bower install`
 3. `grunt dev`
+
+## Client-side
+
+```html
+<script src="/CanvasReader/CanvasReader.js"></script>
+```
+
+## Server-sider
+
+```js
+// Load server stuff and boot app (NOTE: This can be done with a plain HttpClient)
+var app    = require('express')();
+var server = require('http').Server(app).listen(process.env.PORT || 5000);
+
+// Turn on the canvas reader and begin hosting CanvasReader.js to the client
+var CanvasReader = require('CanvasReader');
+var reader       = CanvasReader(server);
+
+// Emitters
+reader.on('connection', function () {
+});
+
+reader.on('message', function () {  
+});
+
+reader.on('disconnection', function () {
+});
+```
 
 # UNLICENSE
 
