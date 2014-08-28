@@ -1,13 +1,14 @@
 {
   "name": "CanvasReader",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "vv/e",
   "main": "./backend/server.js",
   "dependencies": {
     "colors": "^0.6.2",
     "express": "^4.8.5",
     "socket.io": "^1.0.6",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "q": "^1.0.1"
   },
   "devDependencies": {
     "grunt-wiredep": "^1.8.0",

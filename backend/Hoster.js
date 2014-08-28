@@ -1,11 +1,12 @@
-var _ = require('underscore');
+var fs = require('fs');
+var _  = require('underscore');
 
 /**
  * [Hoster description]
  * @param {[type]} server [description]
  */
 function Hoster (server) {
-
+  this.attach(server);
 }
 
 /**
@@ -13,21 +14,26 @@ function Hoster (server) {
  * @param  {[type]} server [description]
  * @return {[type]}        [description]
  */
-Hoster.prototype.attach = function (server) {
+Hoster.prototype.attach = function (server, opts) {
+  var self = this;
+  opts = opts || {};
+  opts = _.defaults(opts, {
+    path : '/CanvasReader/CanvasReader.js'
+  });
 
   // Copy listeners
   var listeners = server.listeners('request').slice(0);
 
   // Remove listeners, but we'll re-add them later
-  server.removeAllListeners();
+  server.removeAllListeners('request');
 
   server.on('request', function (req, res) {
-    if (req.url.indexOf(url) === 0) {
-      serveCanvasReaderJs.apply(server, req, res);
+    if (req.url.indexOf(opts.path) === 0) {
+      serveCanvasReaderJs.call(server, req, res);
     }
     else {
-      _.each(listeners, function (event) {
-        event.apply(server, req, res);
+      _.each(listeners, function (ev) {
+        ev.call(server, req, res);
       });
     }
   });
@@ -51,7 +57,15 @@ Hoster.prototype.urlMatches = function (url) {
  * @return {[type]}     [description]
  */
 function serveCanvasReaderJs (req, res) {
-
+  fs.readFile(__dirname + '/file.js', 'utf8', function (err, data) {
+    if (err) {
+      console.log(err);
+      res.end('err');
+    }
+    else
+      res.end(data);
+  });
+  console.log(':(');
 }
 
 /**

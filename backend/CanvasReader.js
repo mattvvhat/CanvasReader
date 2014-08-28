@@ -1,8 +1,9 @@
+var Hoster = require('./Hoster.js');
 /**
  * [CanvasReader description]
  */
 function CanvasReader (server) {
-  console.log(listeners);
+  this.hoster = new Hoster(server);
 }
 
 
