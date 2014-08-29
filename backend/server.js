@@ -1,3 +1,17 @@
+
+// cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
+// cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
+// cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
+// cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
+// cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
+// cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
+// cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
+// cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
+// cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
+// cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
+// cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
+// cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
+
 var fs = require('fs');
 
 var CanvasReader      = require('./CanvasReader');
