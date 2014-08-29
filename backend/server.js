@@ -67,8 +67,7 @@ io.on('connection', function (socket) {
     // command.on('end', function () {
     //   console.log('Done encoding');
     // });
-
-  })
+  });
 
   socket.on('disconnect', function () {
   });
