@@ -6,6 +6,7 @@
   "dependencies": {
     "colors": "^0.6.2",
     "express": "^4.8.5",
+    "ffmpeg": "*",
     "socket.io": "^1.0.6",
     "underscore": "^1.7.0",
     "q": "^1.0.1"

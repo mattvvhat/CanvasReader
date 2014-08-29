@@ -38,6 +38,7 @@
 <script>
   var socket = io('http://localhost');
   setInterval(function () {
-    socket.emit('my other event', mainCanvas.toDataURL('image/jpeg'));
-  }, 333);
+    var data = mainCanvas.toDataURL('image/jpeg');//.replace(/^data:image\/(png|jpg);base64,/, "");
+    socket.emit('my other event', data);
+  }, 1000);
 </script>

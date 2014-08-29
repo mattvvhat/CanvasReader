@@ -1,4 +1,7 @@
-var CanvasReader = require('./CanvasReader');
+var fs = require('fs');
+
+var CanvasReader      = require('./CanvasReader');
+var decodeBase64Image = require('./decodeBase64Image');
 
 // X_o
 var app    = require('express')();
@@ -9,9 +12,20 @@ var colors = require('colors');
 var reader = CanvasReader(server);
 var io     = require('socket.io')(server);
 
+
+
+
 io.on('connection', function (socket) {
+  // var buffer = new Buffer();
+  // var command = ffmpeg({ 
+  // fs.
+  var count = 0;
   socket.on('my other event', function (data) {
-    console.log(data);
+    var decoded = decodeBase64Image(data);
+    fs.writeFile(__dirname + '/image/image-' + count + '.jpg', decoded.data, function () {
+      console.log('image =', count);
+      count++;
+    });
   });
 });
 
