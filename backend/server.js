@@ -1,3 +1,4 @@
+// ffmpeg -r 43.00 -f image2pipe -c:v mjpeg -i - output.mpg
 // cat big.jpg | ffmpeg -r 62.5 -f image2pipe -c:v mjpeg -i - output.mpg
 // cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
 // cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
@@ -53,12 +54,12 @@ io.on('connection', function (socket) {
 
   socket.on('new', function (data) {
     var decoded = decodeBase64Image(data);
-    // blockStream.write(decoded.data, 'base64');
+    blockStream.write(decoded.data, 'base64');
   });
 
   socket.on('end', function () {
-    // blockStream.end();
-    // console.log('starting encoding');
+    blockStream.end();
+    console.log('starting encoding');
     // var read_stream = fs.createReadStream(block_name);
     // var command = ffmpeg(read_stream);
     // command.videoCodec('libx264');

@@ -2,6 +2,7 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <script>
+  var running = true;
   var mainCanvas  = document.getElementById("vvhat");
   var mainContext = mainCanvas.getContext('2d');
 
@@ -30,7 +31,8 @@
         
       angle += Math.PI / 64;
        
-      requestAnimationFrame(drawCircle);
+      if (running)
+        requestAnimationFrame(drawCircle);
   }
 
   drawCircle();
@@ -45,11 +47,13 @@
 
     var t = + new Date();
 
-    if (t-start < 3000) {
+    if (t-start < 7000) {
       socket.emit('new', data);
       setTimeout(sendImage, 16);
     }
-    else
+    else {
       socket.emit('end');
+      running = false;
+    }
   }, 16);
 </script>
