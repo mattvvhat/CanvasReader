@@ -1,4 +1,4 @@
-
+// cat big.jpg | ffmpeg -r 62.5 -f image2pipe -c:v mjpeg -i - output.mpg
 // cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
 // cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
 // cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
@@ -34,12 +34,21 @@ io.on('connection', function (socket) {
   // var command = ffmpeg({ 
   // fs.
   var count = 0;
+  var fileStream = fs.createWriteStream(__dirname + '/big.jpg');
+
   socket.on('my other event', function (data) {
     var decoded = decodeBase64Image(data);
-    fs.writeFile(__dirname + '/image/image-' + count + '.jpg', decoded.data, function () {
-      console.log('image =', count);
-      count++;
-    });
+    
+    fileStream.write(decoded.data, 'base64');
+
+    // fs.writeFile(__dirname + '/image/image-' + count + '.jpg', decoded.data, function () {
+    //   console.log('image =', count);
+    //   count++;
+    // });
+  });
+
+  socket.on('disconnect', function () {
+
   });
 });
 
