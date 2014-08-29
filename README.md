@@ -25,6 +25,9 @@ var server = require('http').Server(app).listen(process.env.PORT || 5000);
 var CanvasReader = require('CanvasReader');
 var reader       = CanvasReader(server);
 
+// ...
+reader.on('connection', 'output.mp4');
+
 // Emitters
 reader.on('connection', function () {
 });
