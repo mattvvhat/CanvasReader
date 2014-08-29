@@ -12,7 +12,8 @@ function decodeBase64Image (dataString) {
   }
 
   response.type = matches[1];
-  response.data = new Buffer(matches[2], 'base64');
+  // response.data = new Buffer(matches[2], 'base64');
+  response.data = matches[2];
 
   return response;
 }

@@ -12,7 +12,10 @@
 // cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
 // cat *.jpg | ffmpeg -f image2pipe -c:v mjpeg -i - output.mpg
 
-var fs = require('fs');
+var fs     = require('fs');
+var stream = require('stream');
+
+var ffmpeg = require('fluent-ffmpeg');
 
 var CanvasReader      = require('./CanvasReader');
 var decodeBase64Image = require('./decodeBase64Image');
@@ -27,28 +30,47 @@ var reader = CanvasReader(server);
 var io     = require('socket.io')(server);
 
 
+/**
+ *
+ *
+ *
+ * 
+ */
 
 
 io.on('connection', function (socket) {
   // var buffer = new Buffer();
   // var command = ffmpeg({ 
   // fs.
-  var count = 0;
-  var fileStream = fs.createWriteStream(__dirname + '/big.jpg');
+  
+  var block_name  = __dirname + '/tmp/BLOCK';
+  var mp4_name    = __dirname + '/out.mp4';
 
-  socket.on('my other event', function (data) {
-    var decoded = decodeBase64Image(data);
-    
-    fileStream.write(decoded.data, 'base64');
+  var blockStream = fs.createWriteStream(block_name);
 
-    // fs.writeFile(__dirname + '/image/image-' + count + '.jpg', decoded.data, function () {
-    //   console.log('image =', count);
-    //   count++;
-    // });
+  socket.on('connect', function () {
   });
 
-  socket.on('disconnect', function () {
+  socket.on('new', function (data) {
+    var decoded = decodeBase64Image(data);
+    // blockStream.write(decoded.data, 'base64');
+  });
 
+  socket.on('end', function () {
+    // blockStream.end();
+    // console.log('starting encoding');
+    // var read_stream = fs.createReadStream(block_name);
+    // var command = ffmpeg(read_stream);
+    // command.videoCodec('libx264');
+    // command.fps(62.5);
+    // command.save(mp4_name);
+    // command.on('end', function () {
+    //   console.log('Done encoding');
+    // });
+
+  })
+
+  socket.on('disconnect', function () {
   });
 });
 
