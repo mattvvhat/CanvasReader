@@ -9,9 +9,15 @@ var colors = require('colors');
 var reader = CanvasReader(server);
 var io     = require('socket.io')(server);
 
+io.on('connection', function (socket) {
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
+
 // O_o
 app.get('/', function (req, resp) {
-  resp.end(':(');
+  resp.sendFile(__dirname + '/index.html');
 });
 
 console.log('hustling backwards'.rainbow)
