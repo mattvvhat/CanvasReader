@@ -37,23 +37,7 @@
 
   drawCircle();
 </script>
+
 <script>
-  var start  = + new Date();
-  var socket = io('http://localhost');
-
-  setTimeout(function sendImage () {
-    var data = mainCanvas.toDataURL('image/jpeg');
-    
-
-    var t = + new Date();
-
-    if (t-start < 7000) {
-      socket.emit('new', data);
-      setTimeout(sendImage, 16);
-    }
-    else {
-      socket.emit('end');
-      running = false;
-    }
-  }, 16);
+  
 </script>
