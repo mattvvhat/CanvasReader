@@ -6,6 +6,7 @@
 function CanvasReader (el, opts) {
   opts = opts || {};
   this.fps = opts.fps || 33;
+  this.duration = opts.duration || Infinity;
   this.socket_url = opts.socket_url || window.location.origin;
   this.socket     = io(this.socket_url);
   this.canvas_id  = typeof el === 'string' ? el : '';
@@ -17,8 +18,10 @@ function CanvasReader (el, opts) {
  * Loop
  * @type {[type]}
  */
-CanvasReader.prototype.loop = functino () {
-  if (this.is_running) {
+CanvasReader.prototype.loop = function () {
+  var t = + new Date();
+  var current_duration = t - this.start;
+  if (this.is_running || current_duration > this.duration) {
     this.send.call(this);
     setTimeout(this.loop, 1.0/this.fps);
   }
@@ -29,6 +32,7 @@ CanvasReader.prototype.loop = functino () {
  * @return {[type]} [description]
  */
 CanvasReader.prototype.start = function () {
+  this.start = + new Date();
   this.is_running = true;
   this.socket.emit('start', this);
   this.loop();
@@ -47,7 +51,7 @@ CanvasReader.prototype.read = function () {
  * @return {[type]} [description]
  */
 CanvasReader.prototype.send = function () {
-  this.socket.emit('image', this.read());
+  this.socket.emit('image', this.canvas.toDataURL('image/jpeg'));
 }
 
 /**
@@ -55,6 +59,7 @@ CanvasReader.prototype.send = function () {
  * @return {[type]} [description]
  */
 CanvasReader.prototype.end = function () {
+  this.is_running = false;
   this.socket.emit('end', true);
   this.socket.disconnect();
 }
