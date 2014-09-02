@@ -19,8 +19,7 @@ function CanvasReader (el, opts) {
  * @type {[type]}
  */
 CanvasReader.prototype.loop = function () {
-  var t = + new Date();
-  var current_duration = t - this.start;
+  var current_duration = new Date() - this.start_time;
   if (this.is_running || current_duration > this.duration) {
     this.send.call(this);
     setTimeout(this.loop, 1.0/this.fps);
@@ -28,11 +27,11 @@ CanvasReader.prototype.loop = function () {
 }
 
 /**
- * [start description]
+ * Start the Loop Phase
  * @return {[type]} [description]
  */
 CanvasReader.prototype.start = function () {
-  this.start = + new Date();
+  this.start_time = + new Date();
   this.is_running = true;
   this.socket.emit('start', this);
   this.loop();

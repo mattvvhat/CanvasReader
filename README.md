@@ -2,6 +2,10 @@
 
 NodeJS package to receive image data across a socket
 
+## Warning
+
+This is in development as of Sept. 2, 2014. Version 0.0.1 release-date on Sept. 15, 2014.
+
 ## Install
 
 1. `npm install`
@@ -26,17 +30,12 @@ var CanvasReader = require('CanvasReader');
 var reader       = CanvasReader(server);
 
 // ...
-reader.on('connection', 'output.mp4');
-
-// Emitters
-reader.on('connection', function () {
+reader.on('video', function (session) {
+  this.save(__dirname + 'video' + session.id + '.mp4');
 });
 
-reader.on('message', function () {  
-});
-
-reader.on('disconnection', function () {
-});
+// OR:
+reader.on('video', 'output-%03d.mp4');
 ```
 
 # UNLICENSE
