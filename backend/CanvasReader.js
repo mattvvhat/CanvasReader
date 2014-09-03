@@ -13,4 +13,8 @@ function CanvasReader (server) {
   this.hoster = new Hoster(server);
 }
 
+/**
+ * EXPORT
+ */
+
 module.exports = CanvasReader;

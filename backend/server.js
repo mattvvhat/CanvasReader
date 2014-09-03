@@ -40,19 +40,17 @@ var io     = require('socket.io')(server);
 
 
 io.on('connection', function (socket) {
-  // var buffer = new Buffer();
-  // var command = ffmpeg({ 
-  // fs.
-  
   var block_name  = __dirname + '/tmp/BLOCK';
   var mp4_name    = __dirname + '/out.mp4';
 
   var blockStream = fs.createWriteStream(block_name);
 
-  socket.on('connect', function () {
+  socket.on('start', function () {
+    console.log('> new started');
   });
 
   socket.on('new', function (data) {
+    console.log('> new image sent');
     var decoded = decodeBase64Image(data);
     blockStream.write(decoded.data, 'base64');
   });

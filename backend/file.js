@@ -5,13 +5,16 @@
  */
 function CanvasReader (el, opts) {
   opts = opts || {};
-  this.fps = opts.fps || 33;
+  this.fps = opts.fps || 1;
   this.duration = opts.duration || Infinity;
   this.socket_url = opts.socket_url || window.location.origin;
-  this.socket     = io(this.socket_url);
-  this.canvas_id  = typeof el === 'string' ? el : '';
-  this.canvas     = document.getElementById(el);
-  this.is_running = false;
+  // this.socket_url  = 'http://localhost:5000';
+  this.socket      = io(this.socket_url);
+  this.canvas_id   = typeof el === 'string' ? el : '';
+  this.canvas      = document.getElementById(el);
+  this.is_running  = false;
+  this.frames_sent = 0;
+  console.log('<3');
 }
 
 /**
@@ -19,10 +22,22 @@ function CanvasReader (el, opts) {
  * @type {[type]}
  */
 CanvasReader.prototype.loop = function () {
-  var current_duration = new Date() - this.start_time;
-  if (this.is_running || current_duration > this.duration) {
-    this.send.call(this);
-    setTimeout(this.loop, 1.0/this.fps);
+  console.log('[tick = ' + this.frames_sent + ']');
+  
+  var self = this;
+  
+  // Send an image to the server
+  self.send();
+  self.frames_sent++;
+
+  var t = + new Date();
+
+  // If recording should still be running, then repeat
+  if (self.is_running && t < self.duration + self.start_time) {
+    setTimeout(self.loop.bind(self), 1000.0/self.fps);
+  }
+  else {
+    self.end();
   }
 }
 
@@ -33,7 +48,7 @@ CanvasReader.prototype.loop = function () {
 CanvasReader.prototype.start = function () {
   this.start_time = + new Date();
   this.is_running = true;
-  this.socket.emit('start', this);
+  this.socket.emit('start', {});
   this.loop();
 };
 
@@ -50,7 +65,7 @@ CanvasReader.prototype.read = function () {
  * @return {[type]} [description]
  */
 CanvasReader.prototype.send = function () {
-  this.socket.emit('image', this.canvas.toDataURL('image/jpeg'));
+  this.socket.emit('new', this.canvas.toDataURL('image/jpeg'));
 }
 
 /**

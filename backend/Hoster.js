@@ -61,8 +61,10 @@ function serveCanvasReaderJs (req, res) {
   fs.readFile(__dirname + '/file.js', 'utf8', function (err, data) {
     if (err)
       res.end('console.log("is it french fry time yet?");');
-    else
+    else {
+      res.writeHead(200, { 'Content-Type' : 'text/javascript' });
       res.end(data);
+    }
   });
 }
 
