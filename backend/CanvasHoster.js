@@ -2,10 +2,10 @@ var fs = require('fs');
 var _  = require('underscore');
 
 /**
- * [Hoster description]
+ * [CanvasHoster description]
  * @param {[type]} server [description]
  */
-function Hoster (server, opts) {
+function CanvasHoster (server, opts) {
   this.attach(server, opts);
 }
 
@@ -14,7 +14,7 @@ function Hoster (server, opts) {
  * @param  {!HttpServer} server    Server object with "request" listeners
  * @return undefined     undefined 
  */
-Hoster.prototype.attach = function (server, opts) {
+CanvasHoster.prototype.attach = function (server, opts) {
   var self = this;
 
   opts = opts || {};
@@ -47,7 +47,7 @@ Hoster.prototype.attach = function (server, opts) {
  * @param  {[type]} url [description]
  * @return {[type]}     [description]
  */
-Hoster.prototype.urlMatches = function (url) {
+CanvasHoster.prototype.urlMatches = function (url) {
   return url.indexOf(this.path) === 0;
 };
 
@@ -69,7 +69,7 @@ function serveCanvasReaderJs (req, res) {
 }
 
 /**
- * Export Hoster Class
- * @type {!Hoster}
+ * Export CanvasHoster Class
+ * @type {!CanvasHoster}
  */
-module.exports = Hoster;
+module.exports = CanvasHoster;
